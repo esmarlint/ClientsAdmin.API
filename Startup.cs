@@ -42,6 +42,8 @@ namespace ClientsAdmin.API
             });
 
             services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IClientAddressService, ClientAddressService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

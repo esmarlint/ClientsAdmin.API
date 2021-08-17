@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ClientsAdmin.API.Controllers
 {
-    [Route("v1/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
     {

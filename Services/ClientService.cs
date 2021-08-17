@@ -51,7 +51,7 @@ namespace ClientsAdmin.API.Services
             var data = new PaginatedResponse<ClientResponse>();
             data.Page = 1;
 
-            var result = context.Clients.AsNoTracking();
+            var result = context.Clients.Include(e=>e.ClientsAdresses).AsNoTracking();
 
             if (pagination != null)
             {
