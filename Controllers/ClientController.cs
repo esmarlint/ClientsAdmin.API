@@ -64,13 +64,13 @@ namespace ClientsAdmin.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResponse<ClientResponse>> CreateClient([FromBody] CreateClientRequest request)
+        public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest request)
         {
             var response = new ApiResponse<ClientResponse>();
             response.StatusCode = 201;
             response.Data = clientService.CreateClient(request);
 
-            return await Task.FromResult(response);
+            return StatusCode(201, response);
         }
 
     }

@@ -7,8 +7,8 @@ namespace ClientsAdmin.API.Services
 {
     public interface IClientAddressService
     {
-        ClientsAdress Create(ClientAddressRequest request);
+        ClientAddressResponse Create(ClientAddressRequest request);
         PaginatedResponse<ClientAddressResponse> GetAll(int clientId, PaginationParameters pagination = null);
-        int Update(ClientAddressRequest request);
+        ClientAddressResponse Update(int clientId, int addressId, ClientAddressRequest request);
     }
 }

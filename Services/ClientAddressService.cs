@@ -48,23 +48,33 @@ namespace ClientsAdmin.API.Services
             return data;
         }
 
-        public ClientsAdress Create(ClientAddressRequest request)
+        public ClientAddressResponse Create(ClientAddressRequest request)
         {
             var address = new ClientsAdress();
             address.Address = request.Address;
             address.IdClient = request.IdClient;
 
-            var entry = context.ClientsAdresses.Add(address);
+            context.ClientsAdresses.Add(address);
             context.SaveChanges();
 
-            return entry.Entity;
+            var result = new ClientAddressResponse();
+            result.Address = address.Address;
+            result.Id = address.Id;
+            result.IdClient = address.IdClient;
+
+            return result;
         }
 
-        public int Update(ClientAddressRequest request)
+        public ClientAddressResponse Update(int clientId, int addressId, ClientAddressRequest request)
         {
-            var address = context.ClientsAdresses.FirstOrDefault(e => e.Id == request.Id);
+            var address = context.ClientsAdresses.FirstOrDefault(e => e.IdClient == clientId && e.Id == addressId);
             address.Address = request.Address;
-            int result = context.SaveChanges();
+            context.SaveChanges();
+
+            var result = new ClientAddressResponse();
+            result.Address = address.Address;
+            result.Id = address.Id;
+            result.IdClient = address.IdClient;
 
             return result;
         }
