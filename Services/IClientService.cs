@@ -1,4 +1,6 @@
 ﻿using ClientsAdmin.API.Database;
+using ClientsAdmin.API.Models.Request;
+using ClientsAdmin.API.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +10,10 @@ namespace ClientsAdmin.API.Services
 {
     public interface IClientService
     {
-        Client GetClient(int id);
+        ClientResponse GetClient(int id);
 
-        List<Client> GetClients();
+        List<ClientResponse> GetClients();
 
-        Client CreateClient(Client client);
+        ClientResponse CreateClient(CreateClientRequest client);
     }
 }
