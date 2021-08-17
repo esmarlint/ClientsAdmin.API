@@ -23,15 +23,34 @@ namespace ClientsAdmin.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ApiResponse<List<ClientResponse>>> GetClients()
+        public async Task<IActionResult> GetClients([FromQuery] PaginationParameters pagination = null)
         {
-            var clients = clientService.GetClients();
+            if (pagination != null && pagination.Page <= 0)
+            {
+                return BadRequest(new
+                {
+                    Errors = new string[] { "Page parameter must be greater than 0" }
+                });
+            }
 
-            var response = new ApiResponse<List<ClientResponse>>();
+            if (pagination != null && pagination.PageSize <= 0)
+            {
+                return BadRequest(new
+                {
+                    Errors = new string[] { "Page parameter must be greater than 0" }
+                });
+            }
+
+            var paginationResult = clientService.GetClients(pagination);
+
+            var response = new ApiPaginatedResponse<ClientResponse>();
             response.StatusCode = 200;
-            response.Data = clients;
+            response.Page = paginationResult.Page;
+            response.PageSize = paginationResult.PageSize;
+            response.Total = paginationResult.Total;
+            response.Data = paginationResult.Data;
 
-            return await Task.FromResult(response);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]

@@ -1,5 +1,7 @@
 ﻿using ClientsAdmin.API.Context;
 using ClientsAdmin.API.Database;
+using ClientsAdmin.API.Extensions;
+using ClientsAdmin.API.Models;
 using ClientsAdmin.API.Models.Request;
 using ClientsAdmin.API.Models.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -44,14 +46,27 @@ namespace ClientsAdmin.API.Services
             return response;
         }
 
-        public List<ClientResponse> GetClients()
+        public PaginatedResponse<ClientResponse> GetClients(PaginationParameters pagination = null)
         {
-            var result = context.Clients
-                .AsNoTracking()
-                .Select(e => ConvertClientToClientResponse(e))
+            var data = new PaginatedResponse<ClientResponse>();
+            data.Page = 1;
+
+            var result = context.Clients.AsNoTracking();
+
+            if (pagination != null)
+            {
+                data.Total = result.Count();
+                data.Page = pagination.Page;
+                data.PageSize = pagination.PageSize;
+
+                result = result.Paginate(pagination.Page, pagination.PageSize);
+            }
+
+
+            data.Data = result.Select(e => ConvertClientToClientResponse(e))
                 .ToList();
 
-            return result;
+            return data;
         }
 
         public static ClientResponse ConvertClientToClientResponse(Client client)
@@ -78,5 +93,6 @@ namespace ClientsAdmin.API.Services
 
             return response;
         }
+
     }
 }
