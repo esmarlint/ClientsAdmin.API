@@ -16,5 +16,6 @@ namespace ClientsAdmin.API.Services
         PaginatedResponse<ClientResponse> GetClients(PaginationParameters pagination = null);
 
         ClientResponse CreateClient(CreateClientRequest client);
+        ClientResponse Update(int clientId, CreateClientRequest request);
     }
 }

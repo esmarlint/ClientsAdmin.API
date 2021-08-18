@@ -32,6 +32,23 @@ namespace ClientsAdmin.API.Services
             return result;
         }
 
+        public ClientResponse Update(int clientId,CreateClientRequest request)
+        {
+            var client = context.Clients.FirstOrDefault(e => e.Id == clientId);
+
+            client.Phone = request.Phone;
+            client.Rnc = request.Rnc;
+            client.SocialReason = request.SocialReason;
+            client.ComercialName = request.ComercialName;
+
+            var entry = context.Clients.Update(client);
+            context.SaveChanges();
+
+            var result = ConvertClientToClientResponse(entry.Entity);
+
+            return result;
+        }
+
         public ClientResponse GetClient(int id)
         {
             Client client = context.Clients

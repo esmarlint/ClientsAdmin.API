@@ -8,6 +8,7 @@ namespace ClientsAdmin.API.Services
     public interface IClientAddressService
     {
         ClientAddressResponse Create(ClientAddressRequest request);
+        ClientAddressResponse Delete(int clientId, int addressId);
         PaginatedResponse<ClientAddressResponse> GetAll(int clientId, PaginationParameters pagination = null);
         ClientAddressResponse Update(int clientId, int addressId, ClientAddressRequest request);
     }

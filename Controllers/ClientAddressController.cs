@@ -49,6 +49,18 @@ namespace ClientsAdmin.API.Controllers
             return Ok(response);
         }
 
+        [HttpDelete("{clientId}/{addressId}")]
+        public async Task<IActionResult> Delete(int clientId, int addressId)
+        {
+            var result = addressService.Delete(clientId, addressId);
+
+            var response = new ApiResponse<ClientAddressResponse>();
+            response.StatusCode = 200;
+            response.Data = result;
+
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ClientAddressRequest request)
         {

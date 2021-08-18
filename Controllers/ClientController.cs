@@ -23,23 +23,13 @@ namespace ClientsAdmin.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClients([FromQuery] PaginationParameters pagination = null)
+        public async Task<IActionResult> GetClients([FromQuery] PaginationParameters pagination)
         {
-            if (pagination != null && pagination.Page <= 0)
+            if (pagination != null && (pagination.Page <= 0 || pagination.PageSize <= 0))
             {
-                return BadRequest(new
-                {
-                    Errors = new string[] { "Page parameter must be greater than 0" }
-                });
+                pagination = null;
             }
 
-            if (pagination != null && pagination.PageSize <= 0)
-            {
-                return BadRequest(new
-                {
-                    Errors = new string[] { "Page parameter must be greater than 0" }
-                });
-            }
 
             var paginationResult = clientService.GetClients(pagination);
 
@@ -71,6 +61,16 @@ namespace ClientsAdmin.API.Controllers
             response.Data = clientService.CreateClient(request);
 
             return StatusCode(201, response);
+        }
+
+        [HttpPut("{clientId}")]
+        public async Task<IActionResult> Update(int clientId, [FromBody] CreateClientRequest request)
+        {
+            var response = new ApiResponse<ClientResponse>();
+            response.StatusCode = 201;
+            response.Data = clientService.Update(clientId, request);
+
+            return StatusCode(200, response);
         }
 
     }

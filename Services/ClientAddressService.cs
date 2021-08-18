@@ -69,6 +69,22 @@ namespace ClientsAdmin.API.Services
         {
             var address = context.ClientsAdresses.FirstOrDefault(e => e.IdClient == clientId && e.Id == addressId);
             address.Address = request.Address;
+            context.ClientsAdresses.Update(address);
+            context.SaveChanges();
+
+            var result = new ClientAddressResponse();
+            result.Address = address.Address;
+            result.Id = address.Id;
+            result.IdClient = address.IdClient;
+
+            return result;
+        }
+
+        public ClientAddressResponse Delete(int clientId,int addressId)
+        {
+            var address = context.ClientsAdresses.FirstOrDefault(e => e.IdClient == clientId && e.Id == addressId);
+            
+            context.ClientsAdresses.Remove(address);
             context.SaveChanges();
 
             var result = new ClientAddressResponse();
