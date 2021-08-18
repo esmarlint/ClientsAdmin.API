@@ -25,52 +25,92 @@ namespace ClientsAdmin.API.Controllers
         [HttpGet("{clientId}")]
         public async Task<IActionResult> GetAll(int clientId, [FromQuery] PaginationParameters pagination)
         {
-            var paginationResult = addressService.GetAll(clientId);
+            try
+            {
+                var paginationResult = addressService.GetAll(clientId);
 
-            var response = new ApiPaginatedResponse<ClientAddressResponse>();
-            response.StatusCode = 200;
-            response.Page = paginationResult.Page;
-            response.PageSize = paginationResult.PageSize;
-            response.Total = paginationResult.Total;
-            response.Data = paginationResult.Data;
+                var response = new ApiPaginatedResponse<ClientAddressResponse>();
+                response.StatusCode = 200;
+                response.Page = paginationResult.Page;
+                response.PageSize = paginationResult.PageSize;
+                response.Total = paginationResult.Total;
+                response.Data = paginationResult.Data;
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new
+                {
+                    Message = "Request fail"
+                });
+            }
         }
 
         [HttpPut("{clientId}/{addressId}")]
         public async Task<IActionResult> Update(int clientId, int addressId ,[FromBody] ClientAddressRequest request)
         {
-            var result = addressService.Update(clientId, addressId, request);
+            try
+            {
+                var result = addressService.Update(clientId, addressId, request);
 
-            var response = new ApiResponse<ClientAddressResponse>();
-            response.StatusCode = 200;
-            response.Data = result;
+                var response = new ApiResponse<ClientAddressResponse>();
+                response.StatusCode = 200;
+                response.Data = result;
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new
+                {
+                    Message = "Request fail"
+                });
+            }
         }
 
         [HttpDelete("{clientId}/{addressId}")]
         public async Task<IActionResult> Delete(int clientId, int addressId)
         {
-            var result = addressService.Delete(clientId, addressId);
+            try
+            {
+                var result = addressService.Delete(clientId, addressId);
 
-            var response = new ApiResponse<ClientAddressResponse>();
-            response.StatusCode = 200;
-            response.Data = result;
+                var response = new ApiResponse<ClientAddressResponse>();
+                response.StatusCode = 200;
+                response.Data = result;
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new
+                {
+                    Message = "Request fail"
+                });
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ClientAddressRequest request)
         {
-            var result = addressService.Create(request);
+            try
+            {
+                var result = addressService.Create(request);
 
-            var response = new ApiResponse<ClientAddressResponse>();
-            response.StatusCode = 201;
-            response.Data = result;
+                var response = new ApiResponse<ClientAddressResponse>();
+                response.StatusCode = 201;
+                response.Data = result;
 
-            return StatusCode(201, response);
+                return StatusCode(201, response);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new
+                {
+                    Message = "Request fail"
+                });
+            }
         }
 
     }
