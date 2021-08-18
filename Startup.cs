@@ -38,7 +38,7 @@ namespace ClientsAdmin.API
 
             services.AddCors(options => {
                 options.AddDefaultPolicy(builder => {
-                    builder.WithOrigins("http://localhost:57899").AllowAnyMethod().AllowAnyHeader();
+                    builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
                 });
             });
 
