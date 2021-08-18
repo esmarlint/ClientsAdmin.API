@@ -62,7 +62,7 @@ namespace ClientsAdmin.API.Controllers
                 response.StatusCode = 200;
                 response.Data = clientService.GetById(id);
 
-                return await Task.FromResult(response);
+                return Ok(response);
             }
             catch (Exception)
             {
