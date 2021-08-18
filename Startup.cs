@@ -36,12 +36,20 @@ namespace ClientsAdmin.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ClientsAdmin.API", Version = "v1" });
             });
 
+            services.AddCors(options => {
+                options.AddDefaultPolicy(builder => {
+                    builder.WithOrigins("http://localhost:57899").AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("AppConnection"));
             });
 
             services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IClientAddressService, ClientAddressService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +61,8 @@ namespace ClientsAdmin.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ClientsAdmin.API v1"));
             }
+
+            app.UseCors();
 
             app.UseHttpsRedirection();
 

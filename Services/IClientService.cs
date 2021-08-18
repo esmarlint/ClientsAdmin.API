@@ -1,4 +1,5 @@
 ﻿using ClientsAdmin.API.Database;
+using ClientsAdmin.API.Models;
 using ClientsAdmin.API.Models.Request;
 using ClientsAdmin.API.Models.Responses;
 using System;
@@ -12,8 +13,9 @@ namespace ClientsAdmin.API.Services
     {
         ClientResponse GetClient(int id);
 
-        List<ClientResponse> GetClients();
+        PaginatedResponse<ClientResponse> GetClients(PaginationParameters pagination = null);
 
         ClientResponse CreateClient(CreateClientRequest client);
+        ClientResponse Update(int clientId, CreateClientRequest request);
     }
 }

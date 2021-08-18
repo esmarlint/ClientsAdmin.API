@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ClientsAdmin.API.Controllers
 {
-    [Route("v1/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
     {
@@ -23,15 +23,24 @@ namespace ClientsAdmin.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ApiResponse<List<ClientResponse>>> GetClients()
+        public async Task<IActionResult> GetClients([FromQuery] PaginationParameters pagination)
         {
-            var clients = clientService.GetClients();
+            if (pagination != null && (pagination.Page <= 0 || pagination.PageSize <= 0))
+            {
+                pagination = null;
+            }
 
-            var response = new ApiResponse<List<ClientResponse>>();
+
+            var paginationResult = clientService.GetClients(pagination);
+
+            var response = new ApiPaginatedResponse<ClientResponse>();
             response.StatusCode = 200;
-            response.Data = clients;
+            response.Page = paginationResult.Page;
+            response.PageSize = paginationResult.PageSize;
+            response.Total = paginationResult.Total;
+            response.Data = paginationResult.Data;
 
-            return await Task.FromResult(response);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -45,13 +54,23 @@ namespace ClientsAdmin.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResponse<ClientResponse>> CreateClient([FromBody] CreateClientRequest request)
+        public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest request)
         {
             var response = new ApiResponse<ClientResponse>();
             response.StatusCode = 201;
             response.Data = clientService.CreateClient(request);
 
-            return await Task.FromResult(response);
+            return StatusCode(201, response);
+        }
+
+        [HttpPut("{clientId}")]
+        public async Task<IActionResult> Update(int clientId, [FromBody] CreateClientRequest request)
+        {
+            var response = new ApiResponse<ClientResponse>();
+            response.StatusCode = 201;
+            response.Data = clientService.Update(clientId, request);
+
+            return StatusCode(200, response);
         }
 
     }

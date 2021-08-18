@@ -14,4 +14,11 @@ namespace ClientsAdmin.API.Models.Responses
         public string Phone { get; set; }
         public int Adresses { get; set; }
     }
+
+    public class ClientAddressResponse
+    {
+        public int Id { get; set; }
+        public int IdClient { get; set; }
+        public string Address { get; set; }
+    }
 }
