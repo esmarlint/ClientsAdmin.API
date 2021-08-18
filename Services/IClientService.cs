@@ -11,11 +11,11 @@ namespace ClientsAdmin.API.Services
 {
     public interface IClientService
     {
-        ClientResponse GetClient(int id);
+        ClientResponse GetById(int id);
 
-        PaginatedResponse<ClientResponse> GetClients(PaginationParameters pagination = null);
+        PaginatedResponse<ClientResponse> GetAll(PaginationParameters pagination = null);
 
-        ClientResponse CreateClient(CreateClientRequest client);
+        ClientResponse Create(CreateClientRequest client);
         ClientResponse Update(int clientId, CreateClientRequest request);
     }
 }

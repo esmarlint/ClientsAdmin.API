@@ -21,7 +21,7 @@ namespace ClientsAdmin.API.Services
             this.context = context;
         }
 
-        public ClientResponse CreateClient(CreateClientRequest request)
+        public ClientResponse Create(CreateClientRequest request)
         {
             var client = ConvertCreateClientRequestToClient(request);
             var entry = context.Clients.Add(client);
@@ -49,7 +49,7 @@ namespace ClientsAdmin.API.Services
             return result;
         }
 
-        public ClientResponse GetClient(int id)
+        public ClientResponse GetById(int id)
         {
             Client client = context.Clients
                 .AsNoTracking()
@@ -63,7 +63,7 @@ namespace ClientsAdmin.API.Services
             return response;
         }
 
-        public PaginatedResponse<ClientResponse> GetClients(PaginationParameters pagination = null)
+        public PaginatedResponse<ClientResponse> GetAll(PaginationParameters pagination = null)
         {
             var data = new PaginatedResponse<ClientResponse>();
             data.Page = 1;

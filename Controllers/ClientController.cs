@@ -31,7 +31,7 @@ namespace ClientsAdmin.API.Controllers
             }
 
 
-            var paginationResult = clientService.GetClients(pagination);
+            var paginationResult = clientService.GetAll(pagination);
 
             var response = new ApiPaginatedResponse<ClientResponse>();
             response.StatusCode = 200;
@@ -48,7 +48,7 @@ namespace ClientsAdmin.API.Controllers
         {
             var response = new ApiResponse<ClientResponse>();
             response.StatusCode = 200;
-            response.Data = clientService.GetClient(id);
+            response.Data = clientService.GetById(id);
 
             return await Task.FromResult(response);
         }
@@ -58,7 +58,7 @@ namespace ClientsAdmin.API.Controllers
         {
             var response = new ApiResponse<ClientResponse>();
             response.StatusCode = 201;
-            response.Data = clientService.CreateClient(request);
+            response.Data = clientService.Create(request);
 
             return StatusCode(201, response);
         }
